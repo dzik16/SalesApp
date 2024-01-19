@@ -20,15 +20,25 @@ const OrderListScreen = ({ navigation }) => {
   const [timestamp, setTimestamp] = useState(false)
 
   useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getDataOrderLits());
+    };
+
+    fetchData();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (dataListOrder) {
+      setFilteredData(dataListOrder);
+    }
+  }, [dataListOrder]);
+
+  useEffect(() => {
     const timestampparams = route.params?.timestamp;
     if (timestampparams) {
       setTimestamp(timestampparams)
     }
   }, [route.params])
-
-  useEffect(() => {
-    dispatch(getDataOrderLits())
-  }, [dispatch])
 
   useEffect(() => {
     handleSearch();
@@ -89,8 +99,7 @@ const OrderListScreen = ({ navigation }) => {
               <Text style={styles.titleHeader}>Sales Order List</Text>
             </View>
 
-            <View style={styles.containerContent}>
-
+            <View style={[styles.containerContent, { height: dataListOrder ? "auto" : 710, }]}>
               <View style={styles.containerSearch}>
                 <Text style={styles.titleSearch}>Search</Text>
                 <TextInput
