@@ -11,7 +11,7 @@ const persistConfig = {
   storage: AsyncStorage,
   transforms: [
     expireReducer('accessToken', {
-      expireSeconds: 1,
+      expireSeconds: 3600,
       expiredState: {
         tokenReducer: {}
       }
